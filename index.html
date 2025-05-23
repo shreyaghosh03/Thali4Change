@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Thali4Change - Transforming Surplus into Smiles</title>
+<style>
+  /* Reset and base */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a {
+    color: #007185;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  /* Navbar */
+  header.navbar {
+    background-color: #0f1111;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    flex-wrap: wrap;
+  }
+  .logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.1rem;
+    color: #ff9900;
+    cursor: default;
+    user-select: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+  }
+  nav ul li {
+    cursor: pointer;
+  }
+  nav ul li a {
+    color: white;
+    font-weight: 600;
+  }
+  nav ul li a.active {
+    border-bottom: 2px solid #ff9900;
+    padding-bottom: 2px;
+  }
+  /* Container */
+  main.container {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1000&q=80');
+    background-size: cover;
+    background-position: center center;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgb(0 0 0 / 0.3);
+  }
+  .hero-section h1 {
+    background-color: rgba(0,0,0,0.5);
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  /* Section headers */
+  h2 {
+    margin-bottom: 15px;
+    color: #0f1111;
+  }
+
+  /* About, Features */
+  .content-section {
+    margin-bottom: 40px;
+    background: #e2e7e6;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .content-section p, .content-section ul {
+    font-size: 1rem;
+    color: #333;
+  }
+  .content-section ul li {
+    margin-bottom: 10px;
+  }
+
+  /* Footer */
+  footer.footer {
+    background-color: #222f3d;
+    color: white;
+    text-align: center;
+    padding: 15px 10px;
+    font-size: 0.85rem;
+    margin-top: auto;
+  }
+
+  /* Pages */
+  section.page {
+    display: none;
+  }
+  section.page.active {
+    display: block;
+  }
+
+  /* Signup page styles */
+  #signup-page form {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: auto;
+  }
+  #signup-page label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  #signup-page select, 
+  #signup-page input, 
+  #signup-page textarea {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border: 1.5px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  #signup-page button {
+    background-color: #ff9900;
+    border: none;
+    padding: 12px 20px;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #signup-page button:hover {
+    background-color: #cc7a00;
+  }
+
+  /* Recipes page styles */
+  #recipes-page .recipe-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
+  }
+  .recipe-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgb(0 0 0 / 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  .recipe-card img {
+    width: 100%;
+    object-fit: cover;
+    height: 160px;
+  }
+  .recipe-card .recipe-content {
+    padding: 15px;
+    flex-grow: 1;
+  }
+  .recipe-card h3 {
+    margin-bottom: 10px;
+    color: #007185;
+  }
+  .recipe-card p {
+    font-size: 0.9rem;
+    color: #333;
+  }
+
+  /* Delivery Tracking Page */
+  #tracking-page form {
+    max-width: 500px;
+    margin: auto;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  #tracking-page input[type="text"] {
+    margin-bottom: 15px;
+  }
+  #tracking-result {
+    margin-top: 20px;
+    background: #e2e7e6;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  /* Find Nearby Page */
+  #find-page .results {
+    margin-top: 15px;
+  }
+  #find-page ul {
+    list-style: none;
+  }
+  #find-page li {
+    background: #fff;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+  }
+  #find-page button {
+    background-color: #007185;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  #find-page button:hover {
+    background-color: #00595c;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    nav ul {
+      flex-direction: column;
+      width: 100%;
+    }
+    nav ul li {
+      margin-bottom: 10px;
+    }
+    .hero-section h1 {
+      font-size: 1.5rem;
+      padding: 10px 20px;
+    }
+  }
+</style>
+</head>
+<body>
+<header class="navbar">
+  <div class="logo" tabindex="0">Thali4Change</div>
+  <nav aria-label="Primary navigation">
+    <ul>
+      <li><a href="#" class="nav-link active" data-target="home-page">Home</a></li>
+      <li><a href="#" class="nav-link" data-target="signup-page">Signup</a></li>
+      <li><a href="#" class="nav-link" data-target="recipes-page">Recipes</a></li>
+      <li><a href="#" class="nav-link" data-target="tracking-page">Delivery Tracking</a></li>
+      <li><a href="#" class="nav-link" data-target="find-page">Find Nearby</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="container" role="main">
+  <!-- Home Page -->
+  <section id="home-page" class="page active" tabindex="0">
+    <div class="hero-section" role="img" aria-label="Food plates with leftovers ready for sustainable donation">
+      <h1>Transforming Surplus into Smiles</h1>
+    </div>
+    <section class="content-section" aria-labelledby="about-title">
+      <h2 id="about-title">About Thali4Change</h2>
+      <p>
+        Thali4Change is an innovative food donation app tackling hunger and food wastage. We connect hotels, restaurants, caterers, and retailers with local NGOs to redistribute surplus food to old-age homes, orphanages, and underserved communities.
+      </p>
+    </section>
+    <section class="content-section" aria-labelledby="features-title">
+      <h2 id="features-title">Features</h2>
+      <ul>
+        <li>Connect with local NGOs</li>
+        <li>Sell near-expiry products at discounted rates</li>
+        <li>Access recipes to creatively reuse leftovers</li>
+        <li>Incentives for businesses and discounts for consumers</li>
+        <li>Signup as different user types for personalized experience</li>
+        <li>Delivery tracking & nearby NGOs/restaurants/retailers finder</li>
+      </ul>
+    </section>
+  </section>
+
+  <!-- Signup Page -->
+  <section id="signup-page" class="page" tabindex="0" aria-labelledby="signup-title">
+    <h2 id="signup-title">Signup</h2>
+    <form id="signup-form" aria-describedby="signup-desc" novalidate>
+      <p id="signup-desc">Choose your user type and fill the details below to signup.</p>
+      <label for="user-type">I am a:</label>
+      <select id="user-type" name="user-type" required aria-required="true" aria-describedby="user-type-desc">
+        <option value="" disabled selected>Select your role</option>
+        <option value="consumer">Consumer (Recipes & Reuse)</option>
+        <option value="restaurant">Restaurant / Caterer (Donate Food)</option>
+        <option value="ngo">NGO (Receive Food)</option>
+        <option value="retailer">Retailer (Sell Near-Expiry)</option>
+      </select>
+      <div id="form-fields"></div>
+      <button type="submit">Signup</button>
+    </form>
+  </section>
+
+  <!-- Recipes Page -->
+  <section id="recipes-page" class="page" tabindex="0" aria-labelledby="recipes-title">
+    <h2 id="recipes-title">Leftover Food Recipes</h2>
+    <div class="recipe-list" aria-live="polite" aria-relevant="additions removals">
+      <article class="recipe-card">
+        <img src="https://images.unsplash.com/photo-1505253210349-798a58d92143?auto=format&fit=crop&w=400&q=80" alt="Vegetable Fried Rice" />
+        <div class="recipe-content">
+          <h3>Vegetable Fried Rice</h3>
+          <p>A quick and tasty way to use leftover rice and veggies.</p>
+          <a href="https://www.simplyrecipes.com/recipes/vegetable_fried_rice/" target="_blank" rel="noopener noreferrer">View Recipe</a>
+        </div>
+      </article>
+      <article class="recipe-card">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80" alt="Bread Upma" />
+        <div class="recipe-content">
+          <h3>Bread Upma</h3>
+          <p>A savory Indian breakfast made from leftover bread pieces.</p>
+          <a href="https://www.vegrecipesofindia.com/bread-upma-recipe-bread-upma/" target="_blank" rel="noopener noreferrer">View Recipe</a>
+        </div>
+      </article>
+      <article class="recipe-card">
+        <img src="https://images.unsplash.com/photo-1572441710567-3a9a5b6f7178?auto=format&fit=crop&w=400&q=80" alt="Leftover Vegetable Soup" />
+        <div class="recipe-content">
+          <h3>Leftover Vegetable Soup</h3>
+          <p>Turn your leftover vegetables into a warm, comforting soup.</p>
+          <a href="https://www.allrecipes.com/recipe/229960/leftover-vegetable-soup/" target="_blank" rel="noopener noreferrer">View Recipe</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Delivery Tracking Page -->
+  <section id="tracking-page" class="page" tabindex="0" aria-labelledby="tracking-title">
+    <h2 id="tracking-title">Track Your Food Delivery</h2>
+    <form id="tracking-form" aria-describedby="tracking-desc" novalidate>
+      <p id="tracking-desc">Enter your tracking code to check delivery status.</p>
+      <label for="tracking-code">Tracking Code:</label>
+      <input type="text" id="tracking-code" name="tracking-code" placeholder="e.g., THALI12345" required aria-required="true" />
+      <button type="submit">Track</button>
+    </form>
+    <div id="tracking-result" aria-live="polite" aria-atomic="true"></div>
+  </section>
+
+  <!-- Find Nearby NGOs, Retailers, Restaurants Page -->
+  <section id="find-page" class="page" tabindex="0" aria-labelledby="find-title">
+    <h2 id="find-title">Find Nearby NGOs, Retailers, and Restaurants</h2>
+    <p>Click the button below to get your location and find nearby entities.</p>
+    <button id="find-btn">Find Nearby</button>
+    <div class="results" id="find-results" aria-live="polite" aria-atomic="true"></div>
+  </section>
+  
+</main>
+
+<footer class="footer" role="contentinfo">
+  <p>© 2024 Thali4Change. All rights reserved. Contact us: info@thali4change.org</p>
+</footer>
+
+<script>
+  // Routing logic - show/hide pages
+  const navLinks = document.querySelectorAll('.nav-link');
+  const pages = document.querySelectorAll('section.page');
+
+  function showPage(id) {
+    pages.forEach(page => {
+      if (page.id === id) page.classList.add('active');
+      else page.classList.remove('active');
+    });
+    navLinks.forEach(link => {
+      if (link.dataset.target === id) link.classList.add('active');
+      else link.classList.remove('active');
+    });
+    // Focus first h2 or container on new page for accessibility
+    const activePage = document.getElementById(id);
+    if (activePage) {
+      const focusEl = activePage.querySelector('h2, .hero-section, main');
+      if (focusEl) focusEl.focus();
+    }
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = link.dataset.target;
+      showPage(targetId);
+      history.pushState({ page: targetId }, '', `#${targetId}`);
+    });
+  });
+
+  // On page load, check if hash exists, else show home
+  document.addEventListener('DOMContentLoaded', () => {
+    const hashPage = location.hash.slice(1);
+    if (hashPage && document.getElementById(hashPage)) {
+      showPage(hashPage);
+    } else {
+      showPage('home-page');
+    }
+  });
+
+  // Handle browser back/forward navigation
+  window.addEventListener('popstate', (e) => {
+    const pageId = e.state?.page || 'home-page';
+    showPage(pageId);
+  });
+
+  // Signup form dynamic fields based on user type
+  const userTypeSelect = document.getElementById('user-type');
+  const formFieldsDiv = document.getElementById('form-fields');
+  const signupForm = document.getElementById('signup-form');
+
+  function clearFormFields() {
+    formFieldsDiv.innerHTML = '';
+  }
+
+  function createInput(labelText, type='text', id='', placeholder='', required=true) {
+    const label = document.createElement('label');
+    label.setAttribute('for', id);
+    label.textContent = labelText;
+
+    const input = document.createElement('input');
+    input.type = type;
+    input.id = id;
+    input.name = id;
+    if (placeholder) input.placeholder = placeholder;
+    if (required) input.required = true;
+
+    formFieldsDiv.appendChild(label);
+    formFieldsDiv.appendChild(input);
+  }
+
+  function createTextarea(labelText, id, placeholder='', required=true) {
+    const label = document.createElement('label');
+    label.setAttribute('for', id);
+    label.textContent = labelText;
+
+    const textarea = document.createElement('textarea');
+    textarea.id = id;
+    textarea.name = id;
+    textarea.rows = 3;
+    if (placeholder) textarea.placeholder = placeholder;
+    if (required) textarea.required = true;
+
+    formFieldsDiv.appendChild(label);
+    formFieldsDiv.appendChild(textarea);
+  }
+
+  userTypeSelect.addEventListener('change', () => {
+    clearFormFields();
+    const val = userTypeSelect.value;
+    if (!val) return;
+    switch(val) {
+      case 'consumer':
+        createInput('Full Name:', 'text', 'name', 'Your full name');
+        createInput('Email:', 'email', 'email', 'you@example.com');
+        createInput('Phone:', 'tel', 'phone', 'Your phone number', false);
+        createTextarea('Tell us about your cooking preferences or dietary restrictions:', 'preferences', 'e.g., vegetarian, no nuts', false);
+        break;
+      case 'restaurant':
+        createInput('Restaurant Name:', 'text', 'restaurant-name', 'Name of your restaurant');
+        createInput('Email:', 'email', 'email', 'contact@restaurant.com');
+        createInput('Phone:', 'tel', 'phone', 'Contact phone number');
+        createTextarea('Address:', 'address', 'Full address of your restaurant');
+        createTextarea('Type of Cuisine:', 'cuisine', 'e.g., Indian, Continental');
+        break;
+      case 'ngo':
+        createInput('NGO Name:', 'text', 'ngo-name', 'Name of your NGO');
+        createInput('Email:', 'email', 'email', 'contact@ngo.org');
+        createInput('Phone:', 'tel', 'phone', 'Contact phone number');
+        createTextarea('Address:', 'address', 'Full address of your NGO');
+        break;
+      case 'retailer':
+        createInput('Retailer Name:', 'text', 'retailer-name', 'Name of your store');
+        createInput('Email:', 'email', 'email', 'contact@retailer.com');
+        createInput('Phone:', 'tel', 'phone', 'Contact phone number');
+        createTextarea('Address:', 'address', 'Full address of your store');
+        createTextarea('Types of Products:', 'products', 'Near expiry or other special products');
+        break;
+    }
+  });
+
+  signupForm.addEventListener('submit', e => {
+    e.preventDefault();
+    // Simple client-side validation and message
+    if (!userTypeSelect.value) {
+      alert("Please select your user type!");
+      return;
+    }
+    alert("Thank you for signing up! This is a demo site, so your info is not saved.");
+    signupForm.reset();
+    clearFormFields();
+  });
+
+
+  // Delivery Tracking form logic
+  const trackingForm = document.getElementById('tracking-form');
+  const trackingResult = document.getElementById('tracking-result');
+
+  trackingForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const codeInput = trackingForm['tracking-code'].value.trim();
+    if (!codeInput) {
+      trackingResult.textContent = "Please enter a tracking code.";
+      return;
+    }
+    // In real app, here you would do an API call to check tracking status.
+    // For demo, show dummy data with slight delay to simulate network
+    trackingResult.textContent = "Checking status...";
+    setTimeout(() => {
+      const statuses = [
+        "Your food is being prepared.",
+        "Your food is out for delivery.",
+        "Your food has been delivered. Bon Appétit!",
+        "Your delivery is delayed. We apologize for the inconvenience."
+      ];
+      // Generate pseudo-random status based on code hash
+      let sum = 0;
+      for (let i=0; i<codeInput.length; i++) {
+        sum += codeInput.charCodeAt(i);
+      }
+      const status = statuses[sum % statuses.length];
+      trackingResult.textContent = `Tracking Code: ${codeInput}\nStatus: ${status}`;
+    }, 1200);
+  });
+
+  // Find Nearby page logic
+  const findBtn = document.getElementById('find-btn');
+  const findResults = document.getElementById('find-results');
+
+  // Dummy static data for locations with lat, long and type for nearby search simulation
+  // Normally you'd fetch this dynamically from a backend or a public API
+  const dummyLocations = [
+    {name: "Helping Hands NGO", type: 'ngo', lat: 28.7041, lon: 77.1025, address: "Delhi, India"},
+    {name: "Green Leaf Restaurant", type: 'restaurant', lat: 28.7070, lon: 77.1030, address: "Delhi, India"},
+    {name: "FreshMart Retailer", type: 'retailer', lat: 28.7050, lon: 77.1000, address: "Delhi, India"},
+    {name: "Sunshine NGO", type: 'ngo', lat: 28.7030, lon: 77.0990, address: "Delhi, India"},
+    {name: "Spicy Bites Restaurant", type: 'restaurant', lat: 28.7080, lon: 77.1040, address: "Delhi, India"},
+    {name: "Daily Needs Retailer", type: 'retailer', lat: 28.7060, lon: 77.1010, address: "Delhi, India"},
+  ];
+
+  // Simple function to calculate distance (approx, using lat/lon)
+  function distance(lat1, lon1, lat2, lon2) {
+    let p = 0.017453292519943295;    // Math.PI / 180
+    let c = Math.cos;
+    let a = 0.5 - c((lat2 - lat1) * p)/2 + 
+      c(lat1 * p) * c(lat2 * p) * 
+      (1 - c((lon2 - lon1) * p))/2;
+    return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+  }
+
+  findBtn.addEventListener('click', () => {
+    findResults.textContent = "Getting your location...";
+    if (!navigator.geolocation) {
+      findResults.textContent = "Geolocation is not supported by your browser.";
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      findResults.textContent = `<p>Your location: Lat ${latitude.toFixed(4)}, Lon ${longitude.toFixed(4)}</p>`;
+
+      // Find locations within ~5km radius and group by type
+      const nearby = dummyLocations
+        .map(loc => {
+          return {...loc, dist: distance(latitude, longitude, loc.lat, loc.lon)};
+        })
+        .filter(loc => loc.dist <= 5)
+        .sort((a,b) => a.dist - b.dist);
+
+      if (nearby.length === 0) {
+        findResults.innerHTML = "<p>No nearby NGOs, restaurants, or retailers found within 5 km.</p>";
+        return;
+      }
+
+      // Group by types
+      const grouped = {ngo: [], restaurant: [], retailer: []};
+      nearby.forEach(loc => {
+        if (grouped[loc.type]) grouped[loc.type].push(loc);
+      });
+
+      let html = "";
+      for (const type in grouped) {
+        if (grouped[type].length) {
+          html += `<h3>${type.charAt(0).toUpperCase() + type.slice(1)}s nearby:</h3><ul>`;
+          grouped[type].forEach(loc => {
+            html += `<li><strong>${loc.name}</strong> (${loc.dist.toFixed(2)} km) - ${loc.address}</li>`;
+          });
+          html += "</ul>";
+        }
+      }
+
+      findResults.innerHTML = html;
+
+    }, err => {
+      findResults.textContent = "Unable to retrieve your location. Please allow location access and try again.";
+    }, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0,
+    });
+  });
+</script>
+</body>
+</html>
+
